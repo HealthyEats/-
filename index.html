@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="icon" href="logo.png" type="image/x-icon">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover delicious and nutritious recipes with HealthyEats. Get new ideas for healthy and nourishing meals at home easily.">
+    <meta name="keywords" content="food recipes, healthy food, nutritious meals, meal preparation, home cooking, beginner recipes, light dishes, balanced diet, quick cooking,supercook,recipe generator,what can i make with,what can i make with these ingredients,recipes by ingredients,recipe finder,recipe builder,allrecipes.com recipes by ingredients,list ingredients get recipe,recipe generator from ingredients,input ingredients get recipes,recipes by ingredients on hand">
+    <title>HealthyEats: Discover Delicious & Nutritious Recipes</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        
+        .container {
+            padding: 20px;
+        }
+        
+        .button {
+            background-color: #f0f0f0;
+            border: none;
+            color: #333;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* ضل للزر */
+        }
+
+        .button.active {
+            background-color: #f0f0f0;
+        }
+        
+        input[type="text"] {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+            font-size: 16px;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        input[type="range"] {
+            margin-top: 10px;
+            width: 200px;
+            background-color: #ffffff;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        #time-label {
+            margin-top: 10px;
+            display: block;
+            font-size: 16px;
+            color: #333;
+            shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* ضل للزر */
+       
+ }
+
+        .recipe-container {
+            text-align: right;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f0f0f0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+            margin-bottom: 20px;
+        }
+
+        .recipe-image {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .recipe-details {
+            margin-top: 20px;
+            font-size: 18px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        #profile-pic-upload {
+            display: none;
+        }
+
+        #profile-pic-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto;
+            border: 2px solid #f0f0f0;
+            margin-bottom: 10px;
+        }
+
+        #profile-pic {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        #username {
+            font-size: 20px;
+            color: #333;
+        }
+        #menu {
+	background: #f0f0f0;
+	background: linear-gradient(to bottom,  0 2px 4px rgba(0, 0, 0, 0.1); /* ضل للزر */,  #404040);
+	color: black;
+	height: 45px;
+	padding-left: 18px;
+	border-radius: 10px;
+}
+#menu ul, #menu li {
+	margin: 0 auto;
+	padding: 0;
+	list-style: none
+}
+#menu ul {
+	width: 100%;
+}
+#menu li {
+	float: left;
+	display: inline;
+	position: relative;
+}
+#menu a {
+	display: block;
+	line-height: 45px;
+	padding: 0 14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-size: 16px;
+}
+#menu a.dropdown-arrow:after {
+	content: "\25BE";
+	margin-left: 5px;
+}
+#menu li a:hover {
+	color: #0099CC;
+	background: #F2F2F2;
+}
+#menu input {
+	display: none;
+	margin: 0;
+	padding: 0;
+	height: 45px;
+	width: 100%;
+	opacity: 0;
+	cursor: pointer
+}
+#menu label {
+	display: none;
+	line-height: 45px;
+	text-align: center;
+	position: absolute;
+	left: 35px
+}
+#menu label:before {
+	font-size: 1.6em;
+	content: "\2261"; 
+	margin-left: 20px;
+}
+#menu ul.sub-menus{
+	height: auto;
+	overflow: hidden;
+	width: 170px;
+	background: #444444;
+	position: absolute;
+	z-index: 99;
+	display: none;
+}
+#menu ul.sub-menus li {
+	display: block;
+	width: 100%;
+}
+#menu ul.sub-menus a {
+	color: #9B9B9E;
+	font-size: 16px;
+}
+#menu li:hover ul.sub-menus {
+	display: block
+}
+#menu ul.sub-menus a:hover{
+	background: #F2F2F2;
+	color: #444444;
+}
+@media screen and (max-width: 800px){
+	#menu {position:relative}
+	#menu ul {background:#111;position:absolute;top:100%;right:0;left:0;z-index:3;height:auto;display:none}
+	#menu ul.sub-menus {width:100%;position:static;}
+	#menu ul.sub-menus a {padding-left:30px;}
+	#menu li {display:block;float:none;width:auto;}
+	#menu input, #menu label {position:absolute;top:0;left:0;display:block}
+	#menu input {z-index:4}
+	#menu input:checked + label {color:white}
+	#menu input:checked + label:before {content:"\00d7"}
+	#menu input:checked ~ ul {display:block}
+}
+    </style>
+</head>
+<body>
+	<nav id='menu'>
+  <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>
+  <ul>
+    <li><a href='index.html'>Home</a></li>
+  
+  
+    </li>
+    <li><a href='aboute.html'>About</a></li>
+    <li><a class='dropdown-arrow' href='terms.html'>Terms</a>
+  
+    </li>
+    <li><a href='privacy.html'>Privacy policy</a></li>
+  </ul>
+</nav>
+	          
+	
+    <div class="container">
+        <div id="profile-pic-container">
+  
+            <label for="profile-pic-upload">
+                <img src="logo.png" alt="Profile Picture" id="profile-pic">
+            </label>
+        </div>
+        <span id="username">HealthyEats: Discover Delicious & Nutritious Recipes </span>
+     
+        <div style="margin-top: 20px;">
+            <div style="display: inline-block;">
+                <input type="text" id="ingredients-input" placeholder="Enter ingredients here...">
+                <label for="time-range" id="time-label">How much time do you have?</label>
+                <input type="range" min="5" max="180" value="5" id="time-range">
+                
+                <button class="button" id="recipe-button" style="margin-top:20px;">Give me the recipe</button>
+            </div>
+        </div>
+
+        <div id="recipe-list"></div>
+    </div>
+
+    <script>
+        function copyReferralLink() {
+            const referralLink = "https://work-sniper.com";
+            navigator.clipboard.writeText(referralLink).then(function() {
+                alert("Copied");
+            }, function(err) {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        document.getElementById("time-range").addEventListener("input", function() {
+            var time = this.value;
+            document.getElementById("time-label").textContent = time + " minutes (How much time do you have?)";
+        });
+        
+    </script>
+
+    <script>
+        function translateText(textToTranslate) {
+            var url = 'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(textToTranslate) + '&langpair=ar|en';
+
+            return fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    return data.responseData.translatedText;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    return null;
+                });
+        }
+
+        function translateRecipeToEnglish(recipe) {
+            var url = 'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(recipe) + '&langpair=ar|en';
+
+            return fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    return data.responseData.translatedText;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    return null;
+                });
+        }
+
+        document.getElementById("recipe-button").addEventListener("click", function() {
+            const time = document.getElementById("time-range").value;
+            const ingredientsInput = document.getElementById("ingredients-input");
+            const ingredients = ingredientsInput.value;
+
+            // Translate ingredients to English
+            translateText(ingredients)
+                .then(translatedIngredients => {
+                    if (translatedIngredients) {
+                        const defaultPreparationTime = time; // Set default preparation time
+                        const appId = "9fa74179";
+                        const appKey = "d1d5b7e7a12b05cbda6767a1fb30a3b9";
+                        const url = `https://api.edamam.com/search?q=${translatedIngredients}&app_id=${appId}&app_key=${appKey}&time=${time}`;
+
+                        fetch(url)
+                            .then(response => response.json())
+                            .then(data => {
+                                const recipeList = document.getElementById("recipe-list");
+                                recipeList.innerHTML = "";
+
+                                data.hits.forEach(hit => {
+                                    const recipe = hit.recipe;
+
+                                    // Translate recipe to English
+                                    translateRecipeToEnglish(recipe.label)
+                                        .then(translatedRecipe => {
+                                            const recipeItem = document.createElement("div");
+                                            recipeItem.classList.add("recipe-container");
+                                            recipeItem.innerHTML = `
+                                                <h2>${translatedRecipe}</h2>
+                                                <img class="recipe-image" src="${recipe.image}" alt="${translatedRecipe}">
+                                                <div>
+                                                    <p><strong>Preparation Time:</strong> ${defaultPreparationTime} minutes</p>
+                                                    <p><strong>Ingredients:</strong></p>
+                                                    <ul>
+                                                        ${recipe.ingredientLines.map(ingredient => `<li>${ingredient}</li>`).join('')}
+                                                    </ul>
+                                                    <p><strong>Instructions:</strong></p>
+                                                    ${recipe.instructions ? `<ol>${recipe.instructions.map(instruction => `<li>${instruction}</li>`).join('')}</ol>` : `<p><a href="${recipe.url}" target="_blank">Click here to see instructions</a></p>`}
+                                                </div>
+                                            `;
+                                            recipeList.appendChild(recipeItem);
+                                        });
+                                });
+                            });
+                    } else {
+                        console.error('Failed to translate ingredients');
+                    }
+                });
+        });
+    </script>
+</body>
+</html>
+
+
